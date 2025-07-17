@@ -1,4 +1,4 @@
-import supabase from './supabaseClient.js';
+import supabase from '../supabaseClient.js';
 
 const getUsers = async () => {
   const { data, error } = await supabase.from('users').select('*');
