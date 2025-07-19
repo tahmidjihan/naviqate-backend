@@ -9,6 +9,9 @@ app.post('/createUsers', (req, res) => {
   const { name, email } = req.query;
   CreateUsers(name, email);
 });
+app.get('/getUsers', (req, res) => {
+  getUsers();
+});
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
