@@ -1,14 +1,14 @@
-import supabase from '../supabaseClient';
+import supabase from '../supabaseClient.js';
 
-async function CreateUsers(name, email) {
+export const CreateUsers = async (name, email) => {
   const { data, error } = await supabase
     .from('users')
-    .insert([{ name: name, email: email, created_at }]);
+    .insert([
+      { name: name, email: email, created_at: new Date().toISOString() },
+    ]);
   if (error) {
     return 'Supabase error:', error;
   } else {
     return 'Users:', data;
   }
-}
-
-export default CreateUsers;
+};
