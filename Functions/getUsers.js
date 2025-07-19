@@ -4,9 +4,9 @@ const getUsers = async (req, res) => {
   const { data, error } = await supabase.from('users').select('*');
 
   if (error) {
-    console.error('❌ Supabase error:', error);
+    return 'Supabase error:', error;
   } else {
-    console.log('✅ Users:', data);
+    return 'Users:', data;
   }
 };
 

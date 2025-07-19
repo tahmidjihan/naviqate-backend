@@ -7,10 +7,22 @@ app.get('/', (req, res) => {
 });
 app.post('/createUsers', (req, res) => {
   const { name, email } = req.query;
-  CreateUsers(name, email);
+  CreateUsers(name, email)
+    .then((result) => {
+      res.send('user created succesfully');
+    })
+    .catch((err) => {
+      res.send(err);
+    });
 });
 app.get('/getUsers', (req, res) => {
-  getUsers();
+  getUsers()
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
 });
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

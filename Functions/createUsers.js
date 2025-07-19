@@ -5,9 +5,9 @@ async function CreateUsers(name, email) {
     .from('users')
     .insert([{ name: name, email: email, created_at }]);
   if (error) {
-    console.error('Supabase error:', error);
+    return 'Supabase error:', error;
   } else {
-    console.log('Users:', data);
+    return 'Users:', data;
   }
 }
 
