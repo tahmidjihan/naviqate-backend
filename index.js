@@ -1,6 +1,7 @@
 import express from 'express';
 import { getUsers } from './Functions/getUsers.js';
 import { CreateUsers } from './Functions/createUsers.js';
+import { createCompany } from './Functions/createCompany.js';
 
 const app = express();
 
@@ -26,6 +27,15 @@ app.post('/createUser', async (req, res) => {
 app.get('/getUsers', async (req, res) => {
   const returnVal = await getUsers();
   // console.log(returnVal);
+  res.send(returnVal);
+});
+//
+//create company---
+//
+app.post('/createCompany', async (req, res) => {
+  const { name, email, created_by } = req.query;
+  const returnVal = await createCompany(name, email, created_by);
+  console.log(returnVal);
   res.send(returnVal);
 });
 app.listen(port, () => {
