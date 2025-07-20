@@ -8,10 +8,16 @@ const port = process.env.PORT || 3000;
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
+//middleware --
+const auth = (req, res, next) => {
+  verifyToken(req, res, next);
+  next();
+};
+app.use(express.json());
 //
 // --Users Part---
 //
-app.post('/createUsers', async (req, res) => {
+app.post('/createUser', async (req, res) => {
   const { name, email } = req.query;
   const returnVal = await CreateUsers(name, email);
   console.log(returnVal);
