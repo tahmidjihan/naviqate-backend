@@ -8,6 +8,9 @@ const port = process.env.PORT || 3000;
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
+//
+// --Users Part---
+//
 app.post('/createUsers', async (req, res) => {
   const { name, email } = req.query;
   const returnVal = await CreateUsers(name, email);
