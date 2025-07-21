@@ -2,6 +2,7 @@ import express from 'express';
 import { getUsers } from './Functions/getUsers.js';
 import { CreateUsers } from './Functions/createUsers.js';
 import { createCompany } from './Functions/createCompany.js';
+import { createToken, isTokenValid } from './Functions/JwtInit.js';
 
 const app = express();
 
@@ -11,7 +12,7 @@ app.get('/', (req, res) => {
 });
 //middleware --
 const auth = (req, res, next) => {
-  verifyToken(req, res, next);
+  isTokenValid(req, res, next);
   next();
 };
 app.use(express.json());
@@ -19,10 +20,10 @@ app.use(express.json());
 // --Users Part---
 //
 app.post('/createUser', async (req, res) => {
-  const { name, email } = req.query;
+  const { name, email, token } = req.query;
   const returnVal = await CreateUsers(name, email);
-  console.log(returnVal);
-  res.send(returnVal);
+  const jwtToken = await createToken(token);
+  res.send('status:', returnVal, 'Token:', jwtToken);
 });
 app.get('/getUsers', async (req, res) => {
   const returnVal = await getUsers();
