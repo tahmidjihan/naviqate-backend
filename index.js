@@ -2,7 +2,8 @@ import express from 'express';
 import { getUsers } from './Functions/getUsers.js';
 import { CreateUsers } from './Functions/createUsers.js';
 import { createCompany } from './Functions/createCompany.js';
-import { createToken, isTokenValid } from './Functions/JwtInit.js';
+import { getUser } from './Functions/getUser.js';
+// import { createToken, isTokenValid } from './Functions/JwtInit.js';
 
 const app = express();
 
@@ -12,7 +13,7 @@ app.get('/', (req, res) => {
 });
 //middleware --
 const auth = (req, res, next) => {
-  isTokenValid(req, res, next);
+  // isTokenValid(req, res, next);
   next();
 };
 app.use(express.json());
@@ -22,12 +23,18 @@ app.use(express.json());
 app.post('/createUser', async (req, res) => {
   const { name, email, token } = req.query;
   const returnVal = await CreateUsers(name, email);
-  const jwtToken = await createToken(token);
-  res.send('status:', returnVal, 'Token:', jwtToken);
+  // const jwtToken = await createToken(token);
+  console.log(token);
+  res.send('status:', returnVal);
 });
 app.get('/getUsers', async (req, res) => {
   const returnVal = await getUsers();
   // console.log(returnVal);
+  res.send(returnVal);
+});
+app.get('/getUser/:id', auth, async (req, res) => {
+  const { id } = req.params;
+  const returnVal = await getUser(id);
   res.send(returnVal);
 });
 //
