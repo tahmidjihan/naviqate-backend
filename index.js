@@ -30,7 +30,7 @@ app.post('/createUser', async (req, res) => {
   console.log(token);
   res.send('status:', returnVal);
 });
-app.post('/updateUserCompany', async (req, res) => {
+app.patch('/updateUserCompany', async (req, res) => {
   const { id, company } = req.query;
   const returnVal = await updateUserCompany(id, company);
   res.send('status:', returnVal);
