@@ -1,4 +1,4 @@
-import supabase from '../supabaseClient';
+import supabase from '../supabaseClient.js';
 
 export const updateUserCompany = async (id, company) => {
   const { data, error } = await supabase

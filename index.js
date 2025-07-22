@@ -5,6 +5,7 @@ import { createCompany } from './Functions/createCompany.js';
 import { getUser, getUserByEmail } from './Functions/getUser.js';
 // import { createToken, isTokenValid } from './Functions/JwtInit.js';
 import cors from 'cors';
+import { updateUserCompany } from './Functions/updateUserCompany.js';
 
 const app = express();
 // const cors = cors();
@@ -32,6 +33,7 @@ app.post('/createUser', async (req, res) => {
 });
 app.patch('/updateUserCompany', async (req, res) => {
   const { id, company } = req.query;
+  console.log(id, company);
   const returnVal = await updateUserCompany(id, company);
   res.send('status:', returnVal);
 });
