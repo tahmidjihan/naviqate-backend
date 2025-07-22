@@ -4,14 +4,17 @@ import { CreateUsers } from './Functions/createUsers.js';
 import { createCompany } from './Functions/createCompany.js';
 import { getUser } from './Functions/getUser.js';
 // import { createToken, isTokenValid } from './Functions/JwtInit.js';
+import cors from 'cors';
 
 const app = express();
+// const cors = cors();
 
 const port = process.env.PORT || 3000;
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 //middleware --
+app.use(cors());
 const auth = (req, res, next) => {
   // isTokenValid(req, res, next);
   next();
@@ -41,7 +44,8 @@ app.get('/getUser/:id', auth, async (req, res) => {
 //create company---
 //
 app.post('/createCompany', async (req, res) => {
-  const { name, email, created_by } = req.query;
+  // const { name, email, created_by } = req.query;
+  const { name, email, created_by } = req.body;
   const returnVal = await createCompany(name, email, created_by);
   console.log(returnVal);
   res.send(returnVal);
