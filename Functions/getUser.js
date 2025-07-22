@@ -8,3 +8,14 @@ export const getUser = async (id) => {
     return 'Users:', data;
   }
 };
+export const getUserByEmail = async (email) => {
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('email', email);
+  if (error) {
+    return 'Supabase error:', error;
+  } else {
+    return 'Users:', data;
+  }
+};

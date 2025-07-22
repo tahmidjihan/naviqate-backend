@@ -2,7 +2,7 @@ import express from 'express';
 import { getUsers } from './Functions/getUsers.js';
 import { CreateUsers } from './Functions/createUsers.js';
 import { createCompany } from './Functions/createCompany.js';
-import { getUser } from './Functions/getUser.js';
+import { getUser, getUserByEmail } from './Functions/getUser.js';
 // import { createToken, isTokenValid } from './Functions/JwtInit.js';
 import cors from 'cors';
 
@@ -40,8 +40,13 @@ app.get('/getUser/:id', auth, async (req, res) => {
   const returnVal = await getUser(id);
   res.send(returnVal);
 });
+app.get('/getUserByEmail/:email', async (req, res) => {
+  const { email } = req.params;
+  const returnVal = await getUserByEmail(email);
+  res.send(returnVal);
+});
 //
-//create company---
+//-- company---
 //
 app.post('/createCompany', async (req, res) => {
   // const { name, email, created_by } = req.query;
