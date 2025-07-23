@@ -71,6 +71,11 @@ app.post('/createDatabases', async (req, res) => {
   const returnVal = await createDatabases(name, company_id);
   res.send(returnVal);
 });
+app.get('/getDatabases', async (req, res) => {
+  const { id } = req.query;
+  const returnVal = await getDatabases();
+  res.send(returnVal);
+});
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
