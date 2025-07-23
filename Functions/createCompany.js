@@ -1,4 +1,5 @@
 import supabase from '../supabaseClient.js';
+import { getCompanyByEmail } from './getCompany.js';
 export const createCompany = async (name, email, created_by) => {
   const { data, error } = await supabase.from('company').insert([
     {
@@ -11,6 +12,7 @@ export const createCompany = async (name, email, created_by) => {
   if (error) {
     return 'Supabase error:', error;
   } else {
-    return 'Companies:', data;
+    const company = await getCompanyByEmail(email);
+    return 'Company:', company;
   }
 };
