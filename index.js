@@ -66,13 +66,9 @@ app.post('/createCompany', async (req, res) => {
 // -- databases --
 //
 app.post('/createDatabases', async (req, res) => {
-  const { name, created_by, company, company_id } = req.body;
-  const returnVal = await createDatabases(
-    name,
-    created_by,
-    company,
-    company_id
-  );
+  const { name, company_id } = req.body;
+  // console.log(req.body);
+  const returnVal = await createDatabases(name, company_id);
   res.send(returnVal);
 });
 app.listen(port, () => {
