@@ -1,9 +1,9 @@
 import supabase from '../supabaseClient.js';
 
-export const updateUserCompany = async (id, company) => {
+export const updateUserCompany = async (id, company, company_id) => {
   const { data, error } = await supabase
     .from('users')
-    .update({ company: company })
+    .update({ company: company, company_id: company_id })
     .eq('id', id);
   if (error) {
     return 'Supabase error:', error;
