@@ -6,6 +6,7 @@ import { getUser, getUserByEmail } from './Functions/getUser.js';
 // import { createToken, isTokenValid } from './Functions/JwtInit.js';
 import cors from 'cors';
 import { updateUserCompany } from './Functions/updateUserCompany.js';
+import { createDatabases } from './Functions/createDatabases.js';
 
 const app = express();
 // const cors = cors();
@@ -60,6 +61,18 @@ app.post('/createCompany', async (req, res) => {
   const { name, email, created_by } = req.body;
   const returnVal = await createCompany(name, email, created_by);
   console.log(returnVal);
+  res.send(returnVal);
+});
+// -- databases --
+//
+app.post('/createDatabases', async (req, res) => {
+  const { name, created_by, company, company_id } = req.body;
+  const returnVal = await createDatabases(
+    name,
+    created_by,
+    company,
+    company_id
+  );
   res.send(returnVal);
 });
 app.listen(port, () => {
