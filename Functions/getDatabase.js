@@ -1,10 +1,24 @@
 import supabase from '../supabaseClient.js';
 
-export const getDatabase = async (id) => {
+export const getDatabases = async (id) => {
+  await id;
+  // console.log(id);
   const { data, error } = await supabase
     .from('databases')
     .select('*')
-    .eq('id', id);
+    .eq('company_id', id);
+  if (error) {
+    return 'Supabase error:', error;
+  } else {
+    console.log(data);
+    return 'Databases:', data;
+  }
+};
+export const getDatabasesByCompanyId = async (company_id) => {
+  const { data, error } = await supabase
+    .from('databases')
+    .select('*')
+    .eq('company_id', company_id);
   if (error) {
     return 'Supabase error:', error;
   } else {
