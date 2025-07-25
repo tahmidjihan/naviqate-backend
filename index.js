@@ -38,7 +38,7 @@ app.post('/createUser', async (req, res) => {
 });
 app.patch('/updateUserCompany', async (req, res) => {
   const { id, company, company_id, email } = req.query;
-  console.log(id, company);
+  console.log(id, company, company_id, email);
   const returnVal = await updateUserCompany(id, company, company_id, email);
   res.send('status:', returnVal);
 });
