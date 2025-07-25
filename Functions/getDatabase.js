@@ -10,7 +10,8 @@ export const getDatabases = async (id) => {
   if (error) {
     return 'Supabase error:', error;
   } else {
-    console.log(data);
+    // await data;
+    // console.log(data);
     return 'Databases:', data;
   }
 };
