@@ -37,14 +37,9 @@ app.post('/createUser', async (req, res) => {
   res.send('status:', returnVal);
 });
 app.patch('/updateUserCompany', async (req, res) => {
-  const { id, company, company_id, company_email } = req.query;
+  const { id, company, company_id, email } = req.query;
   console.log(id, company);
-  const returnVal = await updateUserCompany(
-    id,
-    company,
-    company_id,
-    company_email
-  );
+  const returnVal = await updateUserCompany(id, company, company_id, email);
   res.send('status:', returnVal);
 });
 app.get('/getUsers', async (req, res) => {
