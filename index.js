@@ -7,10 +7,8 @@ import { getUser, getUserByEmail } from './Functions/getUser.js';
 import cors from 'cors';
 import { updateUserCompany } from './Functions/updateUserCompany.js';
 import { createDatabases } from './Functions/createDatabases.js';
-import {
-  getDatabasesByCompanyId,
-  getDatabases,
-} from './Functions/getDatabase.js';
+import { getDatabases } from './Functions/getDatabase.js';
+import { getWebsiteByCompanyId } from './Functions/getWebsiteByCompanyId';
 
 const app = express();
 // const cors = cors();
@@ -83,6 +81,14 @@ app.get('/getDatabases', async (req, res) => {
 app.get('/getDatabasesByCompany', async (req, res) => {
   const { company_id } = req.query;
   const returnVal = await getDatabasesByCompanyId(company_id);
+  res.send(returnVal);
+});
+//
+// website -
+//
+app.get('/websiteData/:company_id', async (req, res) => {
+  const { company_id } = req.params;
+  const returnVal = await getWebsiteByCompanyId(company_id);
   res.send(returnVal);
 });
 app.listen(port, () => {
