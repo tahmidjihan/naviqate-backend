@@ -11,7 +11,7 @@ import { getDatabases } from './Functions/getDatabase.js';
 import { getWebsiteByCompanyId } from './Functions/getWebsiteByCompanyId';
 
 const app = express();
-// const cors = cors();
+const cors = cors();
 
 const port = process.env.PORT || 3000;
 app.get('/', (req, res) => {
