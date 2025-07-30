@@ -88,6 +88,14 @@ app.get('/getDatabasesByCompany', async (req, res) => {
   res.send(returnVal);
 });
 //
+//---data---
+//
+app.get('/getData', async (req, res) => {
+  const { db_id } = req.query;
+  const returnVal = await getDataByDatabaseId(db_id);
+  res.send(returnVal);
+});
+//
 // website -
 //
 app.get('/websiteData/:company_id', async (req, res) => {
