@@ -8,17 +8,21 @@ import cors from 'cors';
 import { updateUserCompany } from './Functions/updateUserCompany.js';
 import { createDatabases } from './Functions/createDatabases.js';
 import { getDatabases } from './Functions/getDatabase.js';
-import { getWebsiteByCompanyId } from './Functions/getWebsiteByCompanyId';
+import { getWebsiteByCompanyId } from './Functions/getWebsiteByCompanyId.js';
 
 const app = express();
-const cors = cors();
+// const cors = cors();
 
 const port = process.env.PORT || 3000;
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 //middleware --
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+  })
+);
 const auth = (req, res, next) => {
   // isTokenValid(req, res, next);
   next();
