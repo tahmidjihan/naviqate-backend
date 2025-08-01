@@ -9,6 +9,7 @@ import { updateUserCompany } from './Functions/updateUserCompany.js';
 import { createDatabases } from './Functions/createDatabases.js';
 import { getDatabases } from './Functions/getDatabase.js';
 import { getWebsiteByCompanyId } from './Functions/getWebsiteByCompanyId.js';
+import { getDataByDatabaseId } from './Functions/getDataByDatabaseId.js';
 
 const app = express();
 // const cors = cors();
