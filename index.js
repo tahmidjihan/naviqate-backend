@@ -10,6 +10,7 @@ import { createDatabases } from './Functions/createDatabases.js';
 import { getDatabases } from './Functions/getDatabase.js';
 import { getWebsiteByCompanyId } from './Functions/getWebsiteByCompanyId.js';
 import { getDataByDatabaseId } from './Functions/getDataByDatabaseId.js';
+import deleteData from './Functions/deleteData.js';
 
 const app = express();
 // const cors = cors();
@@ -21,7 +22,7 @@ app.get('/', (req, res) => {
 //middleware --
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
   })
 );
 const auth = (req, res, next) => {
@@ -98,6 +99,7 @@ app.get('/getData', async (req, res) => {
 });
 app.delete('/deleteData', async (req, res) => {
   const { id } = req.query;
+  // console.log(id);
   const returnVal = await deleteData(id);
   res.send(returnVal);
 });
