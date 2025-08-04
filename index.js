@@ -96,6 +96,11 @@ app.get('/getData', async (req, res) => {
   const returnVal = await getDataByDatabaseId(db_id);
   res.send(returnVal);
 });
+app.delete('/deleteData', async (req, res) => {
+  const { id } = req.query;
+  const returnVal = await deleteData(id);
+  res.send(returnVal);
+});
 //
 // website -
 //
