@@ -20,11 +20,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 //middleware --
-app.use(
-  cors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
-  })
-);
+app.use(cors());
 const auth = (req, res, next) => {
   // isTokenValid(req, res, next);
   next();
