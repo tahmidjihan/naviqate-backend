@@ -21,10 +21,16 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 //middleware --
+const allowedOrigins = ['http://localhost:5173', 'https://naviqate.web.app'];
 app.use(
   cors({
-    origin: '*',
-    credentials: true,
+    origin: (origin, callback) => {
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
   })
 );
 const auth = (req, res, next) => {
