@@ -111,11 +111,7 @@ app.get('/websiteData/:company_id', async (req, res) => {
 //
 //---USER_API----
 //
-app.get('/getData/:company_id/:db_id', async (req, res) => {
-  const { company_id, db_id } = req.params;
-  const returnVal = await getDataByDatabaseIdAndCompanyId(company_id, db_id);
-  res.send(returnVal);
-});
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
