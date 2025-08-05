@@ -21,7 +21,12 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 //middleware --
-app.use(cors());
+app.use(
+  cors({
+    origin: '*',
+    credentials: true,
+  })
+);
 const auth = (req, res, next) => {
   // isTokenValid(req, res, next);
   next();
