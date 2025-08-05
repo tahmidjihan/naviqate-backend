@@ -6,7 +6,7 @@ export const getUsers = async (req, res) => {
   console.log(data);
 
   if (error) {
-    return 'Supabase error:', error;
+    return error;
   } else {
     // console.log(data);
     return 'Users:', data;

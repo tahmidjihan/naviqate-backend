@@ -6,7 +6,7 @@ export const getCompanyByEmail = async (email) => {
     .select('*')
     .eq('email', email);
   if (error) {
-    return 'Supabase error:', error;
+    return error;
   } else {
     return 'Companies:', data;
   }

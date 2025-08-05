@@ -6,8 +6,8 @@ export const getDataByDatabaseId = async (db_id) => {
     .select('*')
     .eq('db_id', db_id);
   if (error) {
-    return 'Supabase error:', error;
+    return error;
   } else {
-    return 'Databases:', data;
+    return data;
   }
 };

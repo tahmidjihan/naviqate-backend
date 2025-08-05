@@ -15,7 +15,7 @@ export const updateUserCompany = async (
     })
     .eq('id', id);
   if (error) {
-    return 'Supabase error:', error;
+    return error;
   } else {
     return 'Users:', data;
   }
@@ -29,7 +29,7 @@ export const updateUserCompany = async (
 //     .update({ role: role })
 //     .eq('id', id);
 //   if (error) {
-//     return 'Supabase error:', error;
+//     return  error;
 //   } else {
 //     return 'Users:', data;
 //   }

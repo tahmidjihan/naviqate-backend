@@ -10,7 +10,7 @@ export const createCompany = async (name, email, created_by) => {
     },
   ]);
   if (error) {
-    return 'Supabase error:', error;
+    return error;
   } else {
     const company = await getCompanyByEmail(email);
     return 'Company:', company;

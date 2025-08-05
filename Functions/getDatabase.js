@@ -8,11 +8,11 @@ export const getDatabases = async (id) => {
     .select('*')
     .eq('company_id', id);
   if (error) {
-    return 'Supabase error:', error;
+    return error;
   } else {
     // await data;
     // console.log(data);
-    return 'Databases:', data;
+    return data;
   }
 };
 export const getDatabasesByCompanyId = async (company_id) => {
@@ -21,8 +21,8 @@ export const getDatabasesByCompanyId = async (company_id) => {
     .select('*')
     .eq('company_id', company_id);
   if (error) {
-    return 'Supabase error:', error;
+    return error;
   } else {
-    return 'Databases:', data;
+    return data;
   }
 };

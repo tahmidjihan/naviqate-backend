@@ -11,6 +11,7 @@ import { getDatabases } from './Functions/getDatabase.js';
 import { getWebsiteByCompanyId } from './Functions/getWebsiteByCompanyId.js';
 import { getDataByDatabaseId } from './Functions/getDataByDatabaseId.js';
 import deleteData from './Functions/deleteData.js';
+import getDataByDatabaseIdAndCompanyId from './Functions/getDataByDatabaseIdAndCompanyId.js';
 
 const app = express();
 // const cors = cors();
@@ -105,6 +106,14 @@ app.delete('/deleteData', async (req, res) => {
 app.get('/websiteData/:company_id', async (req, res) => {
   const { company_id } = req.params;
   const returnVal = await getWebsiteByCompanyId(company_id);
+  res.send(returnVal);
+});
+//
+//---USER_API----
+//
+app.get('/getData/:company_id/:db_id', async (req, res) => {
+  const { company_id, db_id } = req.params;
+  const returnVal = await getDataByDatabaseIdAndCompanyId(company_id, db_id);
   res.send(returnVal);
 });
 app.listen(port, () => {

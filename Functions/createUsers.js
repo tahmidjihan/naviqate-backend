@@ -7,7 +7,7 @@ export const CreateUsers = async (name, email) => {
       { name: name, email: email, created_at: new Date().toISOString() },
     ]);
   if (error) {
-    return 'Supabase error:', error;
+    return error;
   } else {
     return 'Users:', data;
   }

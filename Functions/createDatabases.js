@@ -10,7 +10,7 @@ export const createDatabases = async (name, company_id) => {
     },
   ]);
   if (error) {
-    return 'Supabase error:', error;
+    return error;
   } else {
     return 'Users:', data;
   }
