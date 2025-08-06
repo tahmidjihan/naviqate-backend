@@ -11,7 +11,7 @@ import { getDatabases } from './Functions/getDatabase.js';
 import { getWebsiteByCompanyId } from './Functions/getWebsiteByCompanyId.js';
 import { getDataByDatabaseId } from './Functions/getDataByDatabaseId.js';
 import deleteData from './Functions/deleteData.js';
-import getDataByDatabaseIdAndCompanyId from './Functions/getDataByDatabaseIdAndCompanyId.js';
+// import getDataByDatabaseIdAndCompanyId from './Functions/getDataByDatabaseIdAndCompanyId.js';
 
 const app = express();
 // const cors = cors();
@@ -22,17 +22,7 @@ app.get('/', (req, res) => {
 });
 //middleware --
 const allowedOrigins = ['http://localhost:5173', 'https://naviqate.web.app'];
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-  })
-);
+app.use(cors());
 const auth = (req, res, next) => {
   // isTokenValid(req, res, next);
   next();
