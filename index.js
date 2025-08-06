@@ -11,6 +11,7 @@ import { getDatabases } from './Functions/getDatabase.js';
 import { getWebsiteByCompanyId } from './Functions/getWebsiteByCompanyId.js';
 import { getDataByDatabaseId } from './Functions/getDataByDatabaseId.js';
 import deleteData from './Functions/deleteData.js';
+import orderWebsite from './Functions/orderWebsite.js';
 // import getDataByDatabaseIdAndCompanyId from './Functions/getDataByDatabaseIdAndCompanyId.js';
 
 const app = express();
@@ -110,9 +111,13 @@ app.get('/websiteData/:company_id', async (req, res) => {
   res.send(returnVal);
 });
 //
-//---USER_API----
+//---Order website----
 //
-
+app.post('/orderWebsite', async (req, res) => {
+  const details = req.body;
+  const returnVal = await orderWebsite(details);
+  res.send(returnVal);
+});
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });

@@ -2,9 +2,9 @@ import supabase from '../supabaseClient.js';
 
 export const getWebsiteByCompanyId = async (company_id) => {
   const { data, error } = await supabase
-    .from('company')
+    .from('websites')
     .select('*')
-    .eq('id', company_id);
+    .eq('company_id', company_id);
   if (error) {
     return error;
   } else {
