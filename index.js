@@ -55,12 +55,12 @@ app.get('/getUsers', async (req, res) => {
   // console.log(returnVal);
   res.send(returnVal);
 });
-app.get('/getUser/:id', auth, async (req, res) => {
+app.get('/getUser/:id', async (req, res) => {
   const { id } = req.params;
   const returnVal = await getUser(id);
   res.send(returnVal);
 });
-app.get('/getUserByEmail/:email', auth, async (req, res) => {
+app.get('/getUserByEmail/:email', async (req, res) => {
   const { email } = req.params;
   const returnVal = await getUserByEmail(email);
   res.send(returnVal);
