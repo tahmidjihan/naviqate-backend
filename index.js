@@ -12,6 +12,7 @@ import { getWebsiteByCompanyId } from './Functions/getWebsiteByCompanyId.js';
 import { getDataByDatabaseId } from './Functions/getDataByDatabaseId.js';
 import deleteData from './Functions/deleteData.js';
 import orderWebsite from './Functions/orderWebsite.js';
+import { createToken, isTokenValid } from './Functions/JwtInit.js';
 // import getDataByDatabaseIdAndCompanyId from './Functions/getDataByDatabaseIdAndCompanyId.js';
 
 const app = express();
@@ -24,8 +25,14 @@ app.get('/', (req, res) => {
 //middleware --
 const allowedOrigins = ['http://localhost:5173', 'https://naviqate.web.app'];
 app.use(cors());
-const auth = (req, res, next) => {
-  // isTokenValid(req, res, next);
+const auth = async (req, res, next) => {
+  await req;
+  const token = req.headers.token;
+  const isValid = isTokenValid(token);
+  // console.log(isValid);
+  if (!isValid) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
   next();
 };
 app.use(express.json());
@@ -35,8 +42,6 @@ app.use(express.json());
 app.post('/createUser', async (req, res) => {
   const { name, email, token } = req.query;
   const returnVal = await CreateUsers(name, email);
-  // const jwtToken = await createToken(token);
-  console.log(token);
   res.send('status:', returnVal);
 });
 app.patch('/updateUserCompany', async (req, res) => {
@@ -55,15 +60,20 @@ app.get('/getUser/:id', auth, async (req, res) => {
   const returnVal = await getUser(id);
   res.send(returnVal);
 });
-app.get('/getUserByEmail/:email', async (req, res) => {
+app.get('/getUserByEmail/:email', auth, async (req, res) => {
   const { email } = req.params;
   const returnVal = await getUserByEmail(email);
+  res.send(returnVal);
+});
+app.post('/createToken', async (req, res) => {
+  const body = req.body;
+  const returnVal = await createToken(body);
   res.send(returnVal);
 });
 //
 //-- company---
 //
-app.post('/createCompany', async (req, res) => {
+app.post('/createCompany', auth, async (req, res) => {
   // const { name, email, created_by } = req.query;
   const { name, email, created_by } = req.body;
   const returnVal = await createCompany(name, email, created_by);
@@ -72,18 +82,18 @@ app.post('/createCompany', async (req, res) => {
 });
 // -- databases --
 //
-app.post('/createDatabases', async (req, res) => {
+app.post('/createDatabases', auth, async (req, res) => {
   const { name, company_id } = req.body;
   // console.log(req.body);
   const returnVal = await createDatabases(name, company_id);
   res.send(returnVal);
 });
-app.get('/getDatabases', async (req, res) => {
+app.get('/getDatabases', auth, async (req, res) => {
   const { id } = req.query;
   const returnVal = await getDatabases(id);
   res.send(returnVal);
 });
-app.get('/getDatabasesByCompany', async (req, res) => {
+app.get('/getDatabasesByCompany', auth, async (req, res) => {
   const { company_id } = req.query;
   const returnVal = await getDatabasesByCompanyId(company_id);
   res.send(returnVal);
@@ -91,12 +101,12 @@ app.get('/getDatabasesByCompany', async (req, res) => {
 //
 //---data---
 //
-app.get('/getData', async (req, res) => {
+app.get('/getData', auth, async (req, res) => {
   const { db_id } = req.query;
   const returnVal = await getDataByDatabaseId(db_id);
   res.send(returnVal);
 });
-app.delete('/deleteData', async (req, res) => {
+app.delete('/deleteData', auth, async (req, res) => {
   const { id } = req.query;
   // console.log(id);
   const returnVal = await deleteData(id);
@@ -105,7 +115,7 @@ app.delete('/deleteData', async (req, res) => {
 //
 // website -
 //
-app.get('/websiteData/:company_id', async (req, res) => {
+app.get('/websiteData/:company_id', auth, async (req, res) => {
   const { company_id } = req.params;
   const returnVal = await getWebsiteByCompanyId(company_id);
   res.send(returnVal);
@@ -113,7 +123,7 @@ app.get('/websiteData/:company_id', async (req, res) => {
 //
 //---Order website----
 //
-app.post('/orderWebsite', async (req, res) => {
+app.post('/orderWebsite', auth, async (req, res) => {
   const details = req.body;
   const returnVal = await orderWebsite(details);
   res.send(returnVal);
