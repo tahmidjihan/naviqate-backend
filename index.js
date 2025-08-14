@@ -115,7 +115,7 @@ app.delete('/deleteData', auth, async (req, res) => {
 //
 // website -
 //
-app.get('/websiteData/:company_id', auth, async (req, res) => {
+app.get('/websiteData/:company_id', async (req, res) => {
   const { company_id } = req.params;
   const returnVal = await getWebsiteByCompanyId(company_id);
   res.send(returnVal);
