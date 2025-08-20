@@ -23,7 +23,11 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 //middleware --
-const allowedOrigins = ['http://localhost:5173', 'https://naviqate.web.app'];
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://naviqate.web.app',
+  'https://hehehe-cake.netlify.app/',
+];
 app.use(cors());
 const auth = async (req, res, next) => {
   await req;
@@ -80,6 +84,13 @@ app.post('/createCompany', auth, async (req, res) => {
   console.log(returnVal);
   res.send(returnVal);
 });
+
+//join-company
+app.post('/joinCompany', auth, async (req, res) => {
+  const { company_email, company_id, user_id, company_secret } = req.body;
+  // const returnVal = await updateUserCompany(email, company_id);
+  res.send(returnVal);
+});
 // -- databases --
 //
 app.post('/createDatabases', auth, async (req, res) => {
@@ -126,6 +137,13 @@ app.get('/websiteData/:company_id', async (req, res) => {
 app.post('/orderWebsite', auth, async (req, res) => {
   const details = req.body;
   const returnVal = await orderWebsite(details);
+  res.send(returnVal);
+});
+/// ---HEHE---
+//
+app.post('/addDataHehe', async (req, res) => {
+  const data = req.body;
+  const returnVal = await addDataHehe(data);
   res.send(returnVal);
 });
 app.listen(port, () => {
