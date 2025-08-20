@@ -13,6 +13,7 @@ import { getDataByDatabaseId } from './Functions/getDataByDatabaseId.js';
 import deleteData from './Functions/deleteData.js';
 import orderWebsite from './Functions/orderWebsite.js';
 import { createToken, isTokenValid } from './Functions/JwtInit.js';
+import { addDataHehe } from './Functions/HEHE.js';
 // import getDataByDatabaseIdAndCompanyId from './Functions/getDataByDatabaseIdAndCompanyId.js';
 
 const app = express();
@@ -23,11 +24,11 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 //middleware --
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://naviqate.web.app',
-  'https://hehehe-cake.netlify.app/',
-];
+// const allowedOrigins = [
+//   'http://localhost:5173',
+//   'https://naviqate.web.app',
+//   'https://hehehe-cake.netlify.app',
+// ];
 app.use(cors());
 const auth = async (req, res, next) => {
   await req;

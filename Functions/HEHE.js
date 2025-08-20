@@ -1,11 +1,11 @@
 import supabase from '../supabaseClient.js';
 
-//db-id is 4
+//db-id is 3
 
 export const addDataHehe = async (data) => {
   // console.log(id);
-  const { data, error } = await supabase.from('data').insert({
-    db_id: 4,
+  const { data: d, error } = await supabase.from('data').insert({
+    db_id: 3,
     created_at: new Date().toISOString(),
     undone: true,
     data: data,
