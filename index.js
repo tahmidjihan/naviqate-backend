@@ -13,6 +13,7 @@ import { getDataByDatabaseId } from './Functions/getDataByDatabaseId.js';
 import deleteData from './Functions/deleteData.js';
 import orderWebsite from './Functions/orderWebsite.js';
 import { createToken, isTokenValid } from './Functions/JwtInit.js';
+import { getCompanyByEmail } from './Functions/getCompany.js';
 // import getDataByDatabaseIdAndCompanyId from './Functions/getDataByDatabaseIdAndCompanyId.js';
 
 const app = express();
@@ -77,6 +78,11 @@ app.post('/createToken', async (req, res) => {
 //
 //-- company---
 //
+app.get('/getCompanyByEmail/:email', auth, async (req, res) => {
+  const { email } = req.params;
+  const returnVal = await getCompanyByEmail(email);
+  res.send(returnVal);
+});
 app.post('/createCompany', auth, async (req, res) => {
   // const { name, email, created_by } = req.query;
   const { name, email, created_by } = req.body;
