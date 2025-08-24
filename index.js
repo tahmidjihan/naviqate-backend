@@ -13,22 +13,17 @@ import { getDataByDatabaseId } from './Functions/getDataByDatabaseId.js';
 import deleteData from './Functions/deleteData.js';
 import orderWebsite from './Functions/orderWebsite.js';
 import { createToken, isTokenValid } from './Functions/JwtInit.js';
-import { getCompanyByEmail } from './Functions/getCompany.js';
+import { getCompany } from './Functions/getCompany.js';
 // import getDataByDatabaseIdAndCompanyId from './Functions/getDataByDatabaseIdAndCompanyId.js';
 
 const app = express();
-// const cors = cors();
 
 const port = process.env.PORT || 3000;
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 //middleware --
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://naviqate.web.app',
-  'https://hehehe-cake.netlify.app',
-];
+const allowedOrigins = ['http://localhost:5173', 'https://naviqate.web.app'];
 app.use(cors());
 const auth = async (req, res, next) => {
   await req;
@@ -78,9 +73,10 @@ app.post('/createToken', async (req, res) => {
 //
 //-- company---
 //
-app.get('/getCompanyByEmail/:email', auth, async (req, res) => {
+app.get('/getCompany/:email', async (req, res) => {
   const { email } = req.params;
-  const returnVal = await getCompanyByEmail(email);
+  const returnVal = await getCompany(email);
+  // console.log(returnVal);
   res.send(returnVal);
 });
 app.post('/createCompany', auth, async (req, res) => {

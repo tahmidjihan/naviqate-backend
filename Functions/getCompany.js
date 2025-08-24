@@ -1,6 +1,6 @@
 import supabase from '../supabaseClient.js';
 
-export const getCompanyByEmail = async (email) => {
+export const getCompany = async (email) => {
   const { data, error } = await supabase
     .from('company')
     .select('*')

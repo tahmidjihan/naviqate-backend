@@ -1,5 +1,5 @@
 import supabase from '../supabaseClient.js';
-import { getCompanyByEmail } from './getCompany.js';
+import { getCompany } from './getCompany.js';
 export const createCompany = async (name, email, created_by) => {
   const generateSecret = () => {
     const characters =
@@ -24,7 +24,7 @@ export const createCompany = async (name, email, created_by) => {
   if (error) {
     return error;
   } else {
-    const company = await getCompanyByEmail(email);
+    const company = await getCompany(email);
     return 'Company:', company;
   }
 };
