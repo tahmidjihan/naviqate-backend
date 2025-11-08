@@ -29,8 +29,20 @@ router.post('/create', async (req, res) => {
     email: req.body.email,
     password: req.body.password,
   });
+
   // console.log(data, error);
   // res.send(data);
+  if (data) {
+    res.send(data);
+  } else {
+    res.send(error);
+  }
+});
+router.post('/login', async (req, res) => {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: req.body.email,
+    password: req.body.password,
+  });
   if (data) {
     res.send(data);
   } else {
