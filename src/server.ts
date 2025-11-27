@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 // import dotenv from 'dotenv';
-import envData from './envData';
-import dashboard from './Routes/Dashboard/index';
+import envData from './dataOfEnv.js';
+import dashboard from './Routes/Dashboard/index.js';
 // import { router } from './routes';
 // import userRouter from './Routers/User/user.ts';
 const { PORT } = envData;
