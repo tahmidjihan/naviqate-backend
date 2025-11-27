@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 // import 'dotenv/config';
-import envData from './dataOfEnv.ts';
+import envData from './envData.ts';
 
 // console.log(envData);
 const { DB_URL = '', DB_ANON = '' } = envData;
