@@ -1,4 +1,4 @@
-import supabase from '../../../Supabase';
+import supabase from '../../../Supabase.js';
 
 export const postInbox = async (inbox_id: string, data: string) => {
   const dataWillBeInserted = { inbox_id: inbox_id, data: data };
