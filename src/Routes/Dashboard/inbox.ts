@@ -20,7 +20,7 @@ router.get('/:email', (req, res) => {
   res.json(data);
 });
 
-router.get('/:email/latest/:limit?', (req, res) => {
+router.get('/:email/latest/:limit', (req, res) => {
   const email = req.params.email;
   const limit = req.params.limit ? parseInt(req.params.limit) : 4;
   const data = getLatestMessages(email, limit);
