@@ -11,7 +11,11 @@ const { PORT } = envData;
 
 const app = express();
 const port = PORT || 3000;
-app.use(cors());
+app.use(
+  cors({
+    origin: '*',
+  })
+);
 app.use(express.json());
 
 app.get('/', (req, res) => {
