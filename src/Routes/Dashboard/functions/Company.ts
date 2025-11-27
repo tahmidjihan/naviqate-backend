@@ -1,5 +1,5 @@
 // import type { CompanyType } from '@/backendProvider';
-import supabase from '../../../Supabase.js';
+import supabase from '../../../Supabase';
 export type ActivityDataType = {
   day: string;
   visits: number;
