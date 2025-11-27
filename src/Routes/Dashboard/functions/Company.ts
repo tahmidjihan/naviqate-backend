@@ -1,5 +1,5 @@
 // import type { CompanyType } from '@/backendProvider';
-import supabase from '../Supabase';
+import supabase from '../../../Supabase.ts';
 export type ActivityDataType = {
   day: string;
   visits: number;
@@ -38,9 +38,6 @@ export async function getCompanyById(id: string) {
     console.log(error);
   }
   return data;
-
-  console.log('getCompanyById called with id:', id);
-  return null;
 }
 
 export async function createCompany(company: CompanyType) {

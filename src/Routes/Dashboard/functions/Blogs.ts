@@ -1,5 +1,5 @@
 // import type { blogType } from '@/backendProvider';
-import supabase from '../Supabase';
+import supabase from '../../../Supabase.ts';
 
 export type blogType = {
   id?: number;
@@ -18,19 +18,23 @@ export async function getBlogs(email: string) {
   }
   return data;
 }
-export async function insertBlog(blog: blogType) {
-  const { data, error } = await supabase.from('Blogs').insert(blog);
+
+export async function getBlogById(email: string, id: number) {
+  const { data, error } = await supabase
+    .from('Blogs')
+    .select('*')
+    .eq('created_by', email)
+    .eq('id', id)
+    .single();
   if (error) {
     console.log(error);
   }
   return data;
+
+  return data;
 }
-export async function getBlogById(id: number) {
-  const { data, error } = await supabase
-    .from('Blogs')
-    .select('*')
-    .eq('id', id)
-    .single();
+export async function insertBlog(blog: blogType) {
+  const { data, error } = await supabase.from('Blogs').insert(blog);
   if (error) {
     console.log(error);
   }

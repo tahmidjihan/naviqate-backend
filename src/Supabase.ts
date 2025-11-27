@@ -1,8 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
 // import 'dotenv/config';
-import envData from './envData';
+import envData from './envData.ts';
 
-const { DB_URL, DB_ANON } = envData;
+// console.log(envData);
+const { DB_URL = '', DB_ANON = '' } = envData;
 
-const supabase = createClient(`DB_URL`, `DB_ANON`);
+const supabase = createClient(DB_URL, DB_ANON);
 export default supabase;
