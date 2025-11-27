@@ -1,5 +1,5 @@
 import express from 'express';
-import { getCompanyById, createCompany, updateCompany } from './functions/Company.ts';
+import { getCompanyById, createCompany, updateCompany } from './functions/Company.js';
 const router = express.Router();
 
 // Define your company routes here

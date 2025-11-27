@@ -1,5 +1,5 @@
 // import type { inboxType } from "@/backendProvider";
-import supabase from '../../../Supabase.ts';
+import supabase from '../../../Supabase.js';
 
 export type inboxType = {
   id?: number;

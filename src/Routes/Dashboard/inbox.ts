@@ -6,7 +6,7 @@ import {
   deleteInboxData,
   deleteInbox,
   getLatestMessages,
-} from './functions/Inbox.ts';
+} from './functions/Inbox.js';
 const router = express.Router();
 
 // Define your inbox routes here
