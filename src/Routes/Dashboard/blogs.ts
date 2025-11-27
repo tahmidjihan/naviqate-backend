@@ -1,5 +1,5 @@
 import express from 'express';
-import { getBlogById, getBlogs, insertBlog } from './functions/Blogs.js';
+import { getBlogById, getBlogs, insertBlog } from './functions/Blogs.ts';
 const router = express.Router();
 
 // Define your dashboard routes here
