@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
   res.send('API routes');
 });
-router.post('/inbox', async (req, res) => {
+router.post('/inboxData', async (req, res) => {
   const { inbox_id, data } = req.body;
   const result = await postInbox(inbox_id, data);
   res.json(result);
