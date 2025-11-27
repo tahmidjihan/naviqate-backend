@@ -1,13 +1,13 @@
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
-import envData from './envData.ts';
+// import dotenv from 'dotenv';
+import envData from './dataOfEnv.ts';
 import dashboard from './Routes/Dashboard/index.ts';
 // import { router } from './routes';
 // import userRouter from './Routers/User/user.ts';
 const { PORT } = envData;
 
-dotenv.config();
+// dotenv.config();
 
 const app = express();
 const port = PORT || 3000;
