@@ -1,5 +1,5 @@
 import express from 'express';
-import { postInbox } from './Functions/inbox';
+import { postInbox } from './Functions/inbox.js';
 const router = express.Router();
 
 // Define your API routes here
