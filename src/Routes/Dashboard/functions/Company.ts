@@ -1,0 +1,88 @@
+// import type { CompanyType } from '@/backendProvider';
+import supabase from '../../../Supabase.ts';
+export type ActivityDataType = {
+  day: string;
+  visits: number;
+};
+
+export type InfoItemType = {
+  icon: string;
+  title: string;
+  data: string[] | number;
+  description: string;
+};
+
+export type SharingMemberType = {
+  name: string;
+  email: string;
+  status: string;
+};
+
+export type CompanyType = {
+  id?: string;
+  name: string;
+  owner: string;
+  domain: string;
+  activity_data?: ActivityDataType[];
+  info?: InfoItemType[];
+  sharing?: SharingMemberType[];
+};
+export async function getCompanyById(id: string) {
+  // TODO: Implement Supabase query to fetch company by id
+  const { data, error } = await supabase
+    .from('Company_data')
+    .select('*')
+    .eq('id', id)
+    .single();
+  if (error) {
+    console.log(error);
+  }
+  return data;
+}
+
+export async function createCompany(company: CompanyType) {
+  // TODO: Implement Supabase insert for new company
+  // The company object should include all fields from CompanyType
+  // After creating the company, you should also update the user's metadata
+  // to include the company_id
+
+  const { data, error } = await supabase
+    .from('Company_data')
+    .insert(company)
+    .select()
+    .single();
+  if (error) {
+    console.log(error);
+    return null;
+  }
+
+  // Update user metadata with company_id
+  const { error: updateError } = await supabase.auth.updateUser({
+    data: { company_id: data.id },
+  });
+  if (updateError) {
+    console.log(updateError);
+  }
+
+  return data;
+
+  console.log('createCompany called with:', company);
+  return null;
+}
+
+export async function updateCompany(id: string, company: CompanyType) {
+  // TODO: Implement Supabase update for existing company
+  const { data, error } = await supabase
+    .from('Company_data')
+    .update(company)
+    .eq('id', id)
+    .select()
+    .single();
+  if (error) {
+    console.log(error);
+  }
+  return data;
+
+  // console.log('updateCompany called with id:', id, 'and data:', company);
+  // return null;
+}
