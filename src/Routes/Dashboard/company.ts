@@ -3,7 +3,7 @@ import {
   getCompanyById,
   createCompany,
   updateCompany,
-} from './functions/Company.ts';
+} from './functions/Company';
 const router = express.Router();
 
 // Define your company routes here

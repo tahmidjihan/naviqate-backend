@@ -1,5 +1,5 @@
 // import type { blogType } from '@/backendProvider';
-import supabase from '../../../Supabase.ts';
+import supabase from '../../../Supabase';
 
 export type blogType = {
   id?: number;
