@@ -3,6 +3,7 @@ import cors from 'cors';
 // import dotenv from 'dotenv';
 import envData from './dataOfEnv.js';
 import dashboard from './Routes/Dashboard/index.js';
+import api from './Routes/API/index.js';
 // import { router } from './routes';
 // import userRouter from './Routers/User/user.ts';
 const { PORT } = envData;
@@ -21,8 +22,12 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
-
+// ! here is some dangerous code that should be fixed soon
+// ? for only dashboard
 app.use('/dashboard', dashboard);
+
+// ? for only api and dashboard
+app.use('/api', api);
 
 app.listen(port, () => {
   console.log(`🚀 Server running on port ${port}`);
