@@ -7,23 +7,21 @@ router.get('/', (req, res) => {
   res.send('Welcome to the Dashboard!');
 });
 
-router.get('/:email', (req, res) => {
+router.get('/:email', async (req, res) => {
   const email = req.params.email;
-  const data = getBlogs(email);
+  const data = await getBlogs(email);
   res.json(data);
 });
-router.get('/:email/:id', (req, res) => {
+router.get('/:email/:id', async (req, res) => {
   const email = req.params.email;
   const id = parseInt(req.params.id);
-  const data = getBlogById(email, id);
+  const data = await getBlogById(email, id);
   res.json(data);
 });
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const blogData = req.body;
-  const data = insertBlog(blogData).then((data) => {
-    res.json(data);
-  });
-  //   res.json(data);
+  const data = await insertBlog(blogData);
+  res.json(data);
 });
 router.put('/:id', (req, res) => {
   const id = parseInt(req.params.id);

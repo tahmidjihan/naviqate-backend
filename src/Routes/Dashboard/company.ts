@@ -7,25 +7,23 @@ router.get('/', (req, res) => {
   res.send('Company routes');
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   const id = req.params.id;
-  const data = getCompanyById(id);
+  const data = await getCompanyById(id);
   res.json(data);
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const companyData = req.body;
-  const data = createCompany(companyData).then((data) => {
-    res.json(data);
-  });
+  const data = await createCompany(companyData);
+  res.json(data);
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   const id = req.params.id;
   const companyData = req.body;
-  const data = updateCompany(id, companyData).then((data) => {
-    res.json(data);
-  });
+  const data = await updateCompany(id, companyData);
+  res.json(data);
 });
 
 export default router;
