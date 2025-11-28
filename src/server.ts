@@ -4,6 +4,7 @@ import cors from 'cors';
 import envData from './dataOfEnv.js';
 import dashboard from './Routes/Dashboard/index.js';
 import api from './Routes/API/index.js';
+import holdMyTea from './Routes/HoldMyTea/index.js';
 // import { router } from './routes';
 // import userRouter from './Routers/User/user.ts';
 const { PORT } = envData;
@@ -28,6 +29,10 @@ app.use('/dashboard', dashboard);
 
 // ? for only api and dashboard
 app.use('/api', api);
+
+// ? holdMyTea routes
+
+app.use('/holdMyTea', holdMyTea);
 
 app.listen(port, () => {
   console.log(`🚀 Server running on port ${port}`);

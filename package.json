@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/tahmidjihan/naviqate-backend#readme",
   "dependencies": {
+    "@openrouter/sdk": "^0.1.27",
     "@supabase/supabase-js": "^2.78.0",
     "@types/cors": "^2.8.19",
     "cors": "^2.8.5",
