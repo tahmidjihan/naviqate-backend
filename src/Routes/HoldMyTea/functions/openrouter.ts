@@ -20,6 +20,11 @@ ${schemas}
 Always filter by created_by='${owner_email}' or owner='${owner_email}' when applicable.
 Do not return markdown, explanation, or code fences.
 No DELETE/DROP/UPDATE without WHERE.
+
+Specific rules:
+- No personal data access.
+- No Drop/Delete/Update whole table,
+- In new blogs set the image in default to https://picsum.photos/seed/<Title-of-the-blog>/1200/600
 `;
 
 export async function ask(req: express.Request, res: express.Response) {
