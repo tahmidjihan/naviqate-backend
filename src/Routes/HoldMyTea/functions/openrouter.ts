@@ -38,7 +38,7 @@ COLUMNS:
   - id: number (primary key)
   - title: string
   - image: string
-  - data: string
+  - data: jsonb
   - created_by: string
 
 TABLE: inboxes
