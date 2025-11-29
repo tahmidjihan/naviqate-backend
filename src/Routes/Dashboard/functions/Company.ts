@@ -30,7 +30,7 @@ export type CompanyType = {
 export async function getCompanyById(id: string) {
   // TODO: Implement Supabase query to fetch company by id
   const { data, error } = await supabase
-    .from('Company_data')
+    .from('company_data')
     .select('*')
     .eq('id', id)
     .single();
@@ -47,7 +47,7 @@ export async function createCompany(company: CompanyType) {
   // to include the company_id
 
   const { data, error } = await supabase
-    .from('Company_data')
+    .from('company_data')
     .insert(company)
     .select()
     .single();
@@ -73,7 +73,7 @@ export async function createCompany(company: CompanyType) {
 export async function updateCompany(id: string, company: CompanyType) {
   // TODO: Implement Supabase update for existing company
   const { data, error } = await supabase
-    .from('Company_data')
+    .from('company_data')
     .update(company)
     .eq('id', id)
     .select()

@@ -10,7 +10,7 @@ export type blogType = {
 };
 export async function getBlogs(email: string) {
   const { data, error } = await supabase
-    .from('Blogs')
+    .from('blogs')
     .select('*')
     .eq('created_by', email);
   if (error) {
@@ -21,7 +21,7 @@ export async function getBlogs(email: string) {
 
 export async function getBlogById(email: string, id: number) {
   const { data, error } = await supabase
-    .from('Blogs')
+    .from('blogs')
     .select('*')
     .eq('created_by', email)
     .eq('id', id)
@@ -34,7 +34,7 @@ export async function getBlogById(email: string, id: number) {
   return data;
 }
 export async function insertBlog(blog: blogType) {
-  const { data, error } = await supabase.from('Blogs').insert(blog);
+  const { data, error } = await supabase.from('blogs').insert(blog);
   if (error) {
     console.log(error);
   }
@@ -42,7 +42,7 @@ export async function insertBlog(blog: blogType) {
 }
 export async function updateBlog(id: number, blog: blogType) {
   const { data, error } = await supabase
-    .from('Blogs')
+    .from('blogs')
     .update(blog)
     .eq('id', id);
   if (error) {
@@ -51,7 +51,7 @@ export async function updateBlog(id: number, blog: blogType) {
   return data;
 }
 export async function deleteBlog(id: number) {
-  const { data, error } = await supabase.from('Blogs').delete().eq('id', id);
+  const { data, error } = await supabase.from('blogs').delete().eq('id', id);
   if (error) {
     console.log(error);
   }

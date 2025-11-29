@@ -8,21 +8,21 @@ export type inboxType = {
 };
 export async function getInboxes(email: string) {
   const { data, error } = await supabase
-    .from('Inboxes')
+    .from('inboxes')
     .select('*')
     .eq('created_by', email);
   if (error) throw error;
   return data;
 }
 export async function createInbox(inbox: inboxType) {
-  const { data, error } = await supabase.from('Inboxes').insert(inbox);
+  const { data, error } = await supabase.from('inboxes').insert(inbox);
   if (error) throw error;
   return data;
 }
 // inbox_data
 export async function getInboxData(id: string) {
   const { data, error } = await supabase
-    .from('Inbox_data')
+    .from('inbox_data')
     .select('*')
     .eq('inbox_id', id);
   if (error) throw error;
@@ -30,13 +30,13 @@ export async function getInboxData(id: string) {
 }
 
 export async function deleteInboxData(id: string) {
-  const { error } = await supabase.from('Inbox_data').delete().eq('id', id);
+  const { error } = await supabase.from('inbox_data').delete().eq('id', id);
   if (error) throw error;
   return true;
 }
 
 export async function deleteInbox(id: string) {
-  const { error } = await supabase.from('Inboxes').delete().eq('id', id);
+  const { error } = await supabase.from('inboxes').delete().eq('id', id);
   if (error) throw error;
   return true;
 }
@@ -50,7 +50,7 @@ export async function deleteInbox(id: string) {
 //   // 3. Sort by date and return the most recent ones
 
 //   const { data: inboxes, error: inboxError } = await supabase
-//     .from('Inboxes')
+//     .from('inboxes')
 //     .select('id, name')
 //     .eq('created_by', email);
 //   if (inboxError) throw inboxError;
@@ -61,7 +61,7 @@ export async function deleteInbox(id: string) {
 
 //   const { data: messages, error: msgError } = await supabase
 //     .from('Inbox_data')
-//     .select('*, Inboxes(name)')
+//     .select('*, inboxes(name)')
 //     .in(
 //       'inbox_id',
 //       inboxes.map((i) => i.id)
