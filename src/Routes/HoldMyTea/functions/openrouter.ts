@@ -25,6 +25,7 @@ Specific rules:
 - No personal data access.
 - No Drop/Delete/Update whole table,
 - In new blogs set the image in default to https://picsum.photos/seed/<Title-of-the-blog>/1200/600
+- Always keep the content in blog whole in quotes not any object that it can be valid jsonb and can be inserted directly.
 `;
 
 export async function ask(req: express.Request, res: express.Response) {
