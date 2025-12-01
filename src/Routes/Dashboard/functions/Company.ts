@@ -77,20 +77,19 @@ export async function createCompany(company: CompanyType) {
     console.log(error);
     return null;
   }
-
-  // Update user metadata with company_id
-  const { error: updateError } = await supabase.auth.updateUser({
-    data: { company_id: data.id },
-  });
-  if (updateError) {
-    console.log(updateError);
+  const { data: insertedData, error: selectError } = await supabase
+    .from('company_data')
+    .select('*')
+    .eq('owner', company.owner)
+    .single();
+  // return data;
+  if (selectError) {
+    console.log(selectError);
+    return null;
   }
-
-  return data;
-
-  console.log('createCompany called with:', company);
-  return null;
+  return insertedData;
 }
+// export async function getIsCompanyUser()
 
 export async function updateCompany(id: string, company: CompanyType) {
   const { data, error } = await supabase
