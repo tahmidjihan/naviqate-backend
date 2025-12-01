@@ -13,7 +13,13 @@ const { PORT } = envData;
 
 const app = express();
 const port = PORT || 3000;
-app.use(cors());
+app.use(
+  cors({
+    // origin: '*',
+    // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    // allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  })
+);
 app.use(express.json());
 
 app.get('/', (req, res) => {

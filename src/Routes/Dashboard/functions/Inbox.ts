@@ -20,7 +20,7 @@ export async function createInbox(inbox: inboxType) {
   return data;
 }
 // inbox_data
-export async function getInboxData(id: string) {
+export async function getInboxData(id: number) {
   const { data, error } = await supabase
     .from('inbox_data')
     .select('*')
@@ -29,13 +29,13 @@ export async function getInboxData(id: string) {
   return data;
 }
 
-export async function deleteInboxData(id: string) {
+export async function deleteInboxData(id: number) {
   const { error } = await supabase.from('inbox_data').delete().eq('id', id);
   if (error) throw error;
   return true;
 }
 
-export async function deleteInbox(id: string) {
+export async function deleteInbox(id: number) {
   const { error } = await supabase.from('inboxes').delete().eq('id', id);
   if (error) throw error;
   return true;

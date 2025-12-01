@@ -41,10 +41,32 @@ export async function getCompanyById(id: string) {
 }
 
 export async function createCompany(company: CompanyType) {
-  // TODO: Implement Supabase insert for new company
-  // The company object should include all fields from CompanyType
-  // After creating the company, you should also update the user's metadata
-  // to include the company_id
+  function generateKey() {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let key = '';
+    for (let i = 0; i < 32; i++) {
+      key += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return key;
+  }
+  async function checkKeyUnique(key: string) {
+    const data = await supabase
+      .from('company_data')
+      .select('*')
+      .eq('key', key)
+      .single();
+    // @ts-ignore
+    if (typeof data === 'object' && data && data.key) {
+      return false;
+    }
+    return true;
+  }
+  let uniqueKey = generateKey();
+  while (!(await checkKeyUnique(uniqueKey))) {
+    uniqueKey = generateKey();
+  }
+  // @ts-ignore
+  company.key = uniqueKey;
 
   const { data, error } = await supabase
     .from('company_data')
@@ -71,7 +93,6 @@ export async function createCompany(company: CompanyType) {
 }
 
 export async function updateCompany(id: string, company: CompanyType) {
-  // TODO: Implement Supabase update for existing company
   const { data, error } = await supabase
     .from('company_data')
     .update(company)

@@ -33,7 +33,7 @@ router.get('/:email', async (req, res) => {
 // });
 
 router.get('/data/:id', async (req, res) => {
-  const id = req.params.id;
+  const id = Number(req.params.id);
   const data = await getInboxData(id);
   res.json(data);
 });
@@ -45,13 +45,13 @@ router.post('/', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-  const id = req.params.id;
+  const id = Number(req.params.id);
   const data = await deleteInbox(id);
   res.json(data);
 });
 
 router.delete('/data/:id', async (req, res) => {
-  const id = req.params.id;
+  const id = Number(req.params.id);
   const data = await deleteInboxData(id);
   res.json(data);
 });

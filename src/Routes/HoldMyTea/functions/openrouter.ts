@@ -25,7 +25,6 @@ Specific rules:
 - No personal data access.
 - No Drop/Delete/Update whole table,
 - In new blogs set the image in default to https://picsum.photos/seed/<Title-of-the-blog>/1200/600
-- Always keep the content in blog whole in quotes not any object that it can be valid jsonb and can be inserted directly.
 `;
 
 export async function ask(req: express.Request, res: express.Response) {
@@ -44,7 +43,7 @@ COLUMNS:
   - id: number (primary key)
   - title: string
   - image: string
-  - data: jsonb
+  - data: string
   - created_by: string
 
 TABLE: inboxes
@@ -56,7 +55,7 @@ COLUMNS:
 TABLE: inbox_data
 COLUMNS:
   - id: string (primary key)
-  - inbox_id: string (foreign key to inboxes.id)
+  - inbox_id: number (foreign key to inboxes.id)
   - created_at: timestamp
 
 TABLE: company_data
