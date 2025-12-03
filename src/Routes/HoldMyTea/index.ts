@@ -1,5 +1,5 @@
 import Express from 'express';
-import { ask } from './functions/openrouter.js';
+import { ask } from './functions/openrouter.controller.js';
 
 const router = Express.Router();
 

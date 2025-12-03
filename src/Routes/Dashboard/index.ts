@@ -6,8 +6,11 @@ const router = express.Router();
 router.get('/', (req, res) => {
   res.send('Welcome to the Dashboard!');
 });
-router.use('/blogs', await import('./blogs.js').then((m) => m.default));
-router.use('/company', await import('./company.js').then((m) => m.default));
-router.use('/inbox', await import('./inbox.js').then((m) => m.default));
+router.use('/blogs', await import('./blogs.routes.js').then((m) => m.default));
+router.use(
+  '/company',
+  await import('./company.routes.js').then((m) => m.default)
+);
+router.use('/inbox', await import('./inbox.routes.js').then((m) => m.default));
 
 export default router;

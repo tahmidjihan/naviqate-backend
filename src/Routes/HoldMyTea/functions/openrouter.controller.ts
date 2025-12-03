@@ -1,7 +1,7 @@
 import express from 'express';
 import { OpenRouter } from '@openrouter/sdk';
 import supabase from '../../../Supabase.js';
-import dataOfEnv from '../../../dataOfEnv.js';
+import dataOfEnv from '../../../env.config.js';
 
 const { OPEN_ROUTER } = dataOfEnv;
 

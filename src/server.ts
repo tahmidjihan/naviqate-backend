@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 // import dotenv from 'dotenv';
-import envData from './dataOfEnv.js';
+import envData from './env.config.js';
 import dashboard from './Routes/Dashboard/index.js';
 import api from './Routes/API/index.js';
 import holdMyTea from './Routes/HoldMyTea/index.js';
