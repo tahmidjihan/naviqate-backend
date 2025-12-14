@@ -1,20 +1,23 @@
 import express from 'express';
-import supabase from '../../../Supabase';
+import supabase from '../../../Supabase.js';
 const router = express.Router();
 
 router.get('/', (req, res) => {
   res.send('Analytics routes');
 });
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   // res.send('Analytics routes');
   const data = req.body;
-  supabase.from('analytics').upsert(
-    { ...data },
-    {
-      onConflict: 'fingerprint',
-    }
-  );
+  console.log(data);
+  console.log('===================================');
+  const { data: analytics, error } = await supabase
+    .from('analytics')
+    .upsert({ ...data });
 
-  res.send('Analytics routes');
+  if (error) {
+    console.log(error);
+  }
+  console.log(analytics);
+  res.send({ message: 'success' });
 });
 export default router;
