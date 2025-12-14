@@ -1,5 +1,6 @@
 import express from 'express';
 import { postInbox } from './Functions/inbox.controller.js';
+import analytics from './Analytics/index.js';
 const router = express.Router();
 
 // Define your API routes here
@@ -11,5 +12,5 @@ router.post('/inboxData', async (req, res) => {
   const result = await postInbox(inbox_id, data);
   res.json(result);
 });
-
+router.use('/analytics', analytics);
 export default router;
