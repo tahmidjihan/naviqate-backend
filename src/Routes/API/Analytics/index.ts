@@ -1,23 +1,66 @@
 import express from 'express';
-import supabase from '../../../Supabase.js';
+import { getAnalytics } from './getAnalytics.js';
+import { getAnalyticsByOwner } from './getAnalyticsByOwner.js';
+import { mergeAnalytics } from './mergeAnalytics.js';
+import { updateAnalytics } from './updateAnalytics.js';
+
 const router = express.Router();
 
 router.get('/', (req, res) => {
   res.send('Analytics routes');
 });
-router.post('/', async (req, res) => {
-  // res.send('Analytics routes');
-  const data = req.body;
-  console.log(data);
-  console.log('===================================');
-  const { data: analytics, error } = await supabase
-    .from('analytics')
-    .upsert({ ...data });
 
-  if (error) {
-    console.log(error);
+// Get analytics by owner email
+router.get('/:owner', async (req, res) => {
+  try {
+    const { owner } = req.params;
+
+    if (!owner) {
+      return res.status(400).json({ error: 'Owner email is required' });
+    }
+
+    const analytics = await getAnalyticsByOwner(owner);
+    res.json({ message: 'success', analytics });
+  } catch (error) {
+    console.error('Error fetching analytics by owner:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
-  console.log(analytics);
-  res.send({ message: 'success' });
 });
+
+router.post('/', async (req, res) => {
+  try {
+    const { data, fingerprint, initial } = req.body;
+
+    if (!fingerprint) {
+      return res.status(400).json({ error: 'Fingerprint is required' });
+    }
+
+    if (!data) {
+      return res.status(400).json({ error: 'Data is required' });
+    }
+
+    if (!initial?.clientEmail) {
+      return res
+        .status(400)
+        .json({ error: 'initial.clientEmail is required' });
+    }
+
+    const owner = initial.clientEmail;
+
+    // Get existing analytics for this fingerprint
+    const oldData = await getAnalytics(fingerprint);
+
+    // Merge old and new data with percentage priority
+    const mergedData = mergeAnalytics(oldData, data);
+
+    // Update analytics in database with owner
+    await updateAnalytics(fingerprint, mergedData, owner);
+
+    res.json({ message: 'success', data: mergedData });
+  } catch (error) {
+    console.error('Error processing analytics:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 export default router;
