@@ -8,7 +8,16 @@ export async function updateAnalytics(
 ): Promise<void> {
   const { error } = await supabase
     .from('analytics')
-    .upsert({ fingerprint, data, owner }, { onConflict: 'fingerprint' });
+    .upsert(
+      {
+        fingerprint,
+        buttons: data.button || [],
+        pages: data.page || [],
+        forms: data.form || [],
+        owner,
+      },
+      { onConflict: 'fingerprint' }
+    );
 
   if (error) {
     console.error('Error updating analytics:', error);

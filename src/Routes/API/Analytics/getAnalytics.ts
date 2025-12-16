@@ -11,7 +11,7 @@ export async function getAnalytics(
 ): Promise<AnalyticsData | null> {
   const { data, error } = await supabase
     .from('analytics')
-    .select('data')
+    .select('buttons, pages, forms')
     .eq('fingerprint', fingerprint)
     .single();
 
@@ -20,5 +20,10 @@ export async function getAnalytics(
     return null;
   }
 
-  return data?.data || null;
+  // Reconstruct the data object
+  return {
+    button: data?.buttons || [],
+    page: data?.pages || [],
+    form: data?.forms || [],
+  };
 }

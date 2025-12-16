@@ -6,7 +6,7 @@ export async function getAnalyticsByOwner(
 ): Promise<Array<{ fingerprint: string; data: AnalyticsData }>> {
   const { data, error } = await supabase
     .from('analytics')
-    .select('fingerprint, data')
+    .select('fingerprint, buttons, pages, forms')
     .eq('owner', owner);
 
   if (error) {
@@ -14,5 +14,13 @@ export async function getAnalyticsByOwner(
     throw new Error('Failed to fetch analytics');
   }
 
-  return data || [];
+  // Reconstruct data objects for each entry
+  return (data || []).map((entry) => ({
+    fingerprint: entry.fingerprint,
+    data: {
+      button: entry.buttons || [],
+      page: entry.pages || [],
+      form: entry.forms || [],
+    },
+  }));
 }
