@@ -4,9 +4,10 @@ import type { AnalyticsData } from './getAnalytics.js';
 export async function getAnalyticsByOwner(
   owner: string
 ): Promise<Array<{ fingerprint: string; data: AnalyticsData }>> {
-  const { data, error } = await supabase
+  // Get all analytics entries for this owner
+  const { data: analyticsEntries, error } = await supabase
     .from('analytics')
-    .select('fingerprint, buttons, pages, forms')
+    .select('fingerprint')
     .eq('owner', owner);
 
   if (error) {
@@ -14,13 +15,38 @@ export async function getAnalyticsByOwner(
     throw new Error('Failed to fetch analytics');
   }
 
-  // Reconstruct data objects for each entry
-  return (data || []).map((entry) => ({
-    fingerprint: entry.fingerprint,
-    data: {
-      button: entry.buttons || [],
-      page: entry.pages || [],
-      form: entry.forms || [],
-    },
-  }));
+  if (!analyticsEntries || analyticsEntries.length === 0) {
+    return [];
+  }
+
+  // For each fingerprint, fetch the event data
+  const results = await Promise.all(
+    analyticsEntries.map(async (entry) => {
+      const { data: buttons } = await supabase
+        .from('analytics_buttons')
+        .select('*')
+        .eq('fingerprint', entry.fingerprint);
+
+      const { data: pages } = await supabase
+        .from('analytics_pages')
+        .select('*')
+        .eq('fingerprint', entry.fingerprint);
+
+      const { data: forms } = await supabase
+        .from('analytics_forms')
+        .select('*')
+        .eq('fingerprint', entry.fingerprint);
+
+      return {
+        fingerprint: entry.fingerprint,
+        data: {
+          button: buttons || [],
+          page: pages || [],
+          form: forms || [],
+        },
+      };
+    })
+  );
+
+  return results;
 }

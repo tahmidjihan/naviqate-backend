@@ -15,8 +15,8 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:email', async (req, res) => {
-  const email = req.params.email;
-  const data = await getInboxes(email);
+  const companyId = Number(req.params.email);
+  const data = await getInboxes(companyId);
   res.json(data);
 });
 

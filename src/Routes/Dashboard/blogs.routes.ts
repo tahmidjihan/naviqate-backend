@@ -11,15 +11,15 @@ router.get('/', (req, res) => {
   res.send('Welcome to the Dashboard!');
 });
 
-router.get('/:email', async (req, res) => {
-  const email = req.params.email;
-  const data = await getBlogs(email);
+router.get('/:company', async (req, res) => {
+  const company = Number(req.params.company);
+  const data = await getBlogs(company);
   res.json(data);
 });
-router.get('/:email/:id', async (req, res) => {
-  const email = req.params.email;
+router.get('/:company/:id', async (req, res) => {
+  const company = Number(req.params.company);
   const id = parseInt(req.params.id);
-  const data = await getBlogById(email, id);
+  const data = await getBlogById(company, id);
   res.json(data);
 });
 router.post('/', async (req, res) => {

@@ -6,31 +6,31 @@ export type blogType = {
   title: string;
   image: string;
   data: string;
-  created_by: string;
+  created_by?: string;
+  owner: number;
 };
-export async function getBlogs(email: string) {
+export async function getBlogs(companyId: number) {
+  // console.log(companyId);
   const { data, error } = await supabase
     .from('blogs')
     .select('*')
-    .eq('created_by', email);
+    .eq('owner', companyId);
   if (error) {
     console.log(error);
   }
   return data;
 }
 
-export async function getBlogById(email: string, id: number) {
+export async function getBlogById(companyId: number, id: number) {
   const { data, error } = await supabase
     .from('blogs')
     .select('*')
-    .eq('created_by', email)
+    .eq('owner', companyId)
     .eq('id', id)
     .single();
   if (error) {
     console.log(error);
   }
-  return data;
-
   return data;
 }
 export async function insertBlog(blog: blogType) {

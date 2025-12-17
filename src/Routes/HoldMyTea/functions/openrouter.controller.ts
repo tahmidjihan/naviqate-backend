@@ -29,10 +29,10 @@ Specific rules:
 
 export async function ask(req: express.Request, res: express.Response) {
   try {
-    const { question, owner_email } = req.body;
+    const { question, owner } = req.body;
 
-    if (!owner_email) {
-      res.status(400).json({ error: 'owner_email is required' });
+    if (!owner) {
+      res.status(400).json({ error: 'owner is required' });
       return;
     }
 
@@ -44,13 +44,13 @@ COLUMNS:
   - title: string
   - image: string
   - data: string
-  - created_by: string
+  - owner: number
 
 TABLE: inboxes
 COLUMNS:
   - id: number (primary key)
-  - created_by: string
   - name: string
+  - owner: number
 
 TABLE: inbox_data
 COLUMNS:
@@ -78,7 +78,7 @@ IMPORTANT: Table names are case-sensitive. Use exact casing as shown above.
       messages: [
         {
           role: 'system',
-          content: getSystemInstructions(schemas, owner_email),
+          content: getSystemInstructions(schemas, owner),
         },
         { role: 'user', content: question },
       ],
@@ -87,7 +87,7 @@ IMPORTANT: Table names are case-sensitive. Use exact casing as shown above.
     const content = completion?.choices?.[0]?.message?.content;
     let generatedQuery = typeof content === 'string' ? content.trim() : '';
 
-    console.log('AI Raw Output:', generatedQuery);
+    // console.log('AI Raw Output:', generatedQuery);
 
     // 2. Sanitize AI stupidity (markdown, comments, text)
     generatedQuery = generatedQuery

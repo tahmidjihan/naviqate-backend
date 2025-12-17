@@ -30,22 +30,7 @@ router.get('/:owner', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const { data, fingerprint, initial } = req.body;
-
-    if (!fingerprint) {
-      return res.status(400).json({ error: 'Fingerprint is required' });
-    }
-
-    if (!data) {
-      return res.status(400).json({ error: 'Data is required' });
-    }
-
-    if (!initial?.clientEmail) {
-      return res
-        .status(400)
-        .json({ error: 'initial.clientEmail is required' });
-    }
-
-    const owner = initial.clientEmail;
+    const owner = Number(initial.clientID);
 
     // Get existing analytics for this fingerprint
     const oldData = await getAnalytics(fingerprint);
