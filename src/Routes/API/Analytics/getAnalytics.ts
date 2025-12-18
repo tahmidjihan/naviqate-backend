@@ -1,7 +1,7 @@
 import supabase from '../../../Supabase.js';
 
 export interface AnalyticsData {
-  form?: Array<{ id?: number; form: string; percentage: string }>;
+  form?: Array<{ id?: number; form: string; percentage: number }>;
   page?: Array<{ id?: number; page: string; percentage: number }>;
   button?: Array<{ id?: number; page: string; button: string }>;
 }

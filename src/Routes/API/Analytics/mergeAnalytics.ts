@@ -13,7 +13,7 @@ export function mergeAnalytics(
 
   // Merge form data - keep entries with higher percentage
   if (newData.form || oldData.form) {
-    const formMap = new Map<string, { form: string; percent: string }>();
+    const formMap = new Map<string, { form: string; percentage: number }>();
 
     // Add old forms to map
     if (oldData.form) {
@@ -26,7 +26,7 @@ export function mergeAnalytics(
     if (newData.form) {
       newData.form.forEach((item) => {
         const existing = formMap.get(item.form);
-        if (!existing || parseFloat(item.percent) > parseFloat(existing.percent)) {
+        if (!existing || item.percentage > existing.percentage) {
           formMap.set(item.form, item);
         }
       });

@@ -14,8 +14,8 @@ router.get('/', (req, res) => {
   res.send('Inbox routes');
 });
 
-router.get('/:email', async (req, res) => {
-  const companyId = Number(req.params.email);
+router.get('/:id', async (req, res) => {
+  const companyId = Number(req.params.id);
   const data = await getInboxes(companyId);
   res.json(data);
 });
