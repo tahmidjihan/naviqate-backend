@@ -8,9 +8,9 @@ async function handleGetAnalyticsByOwner(req: Request, res: Response) {
     if (!owner || !event) {
       return res.status(400).json({ error: 'Correct parameters is required' });
     }
-
-    const analytics = await get.getAnalytics(owner, event as string);
-    res.json({ message: 'success', analytics });
+    // @ts-ignore
+    const { uniqueSets, data } = await get.getAnalytics(owner, event as string);
+    res.json({ message: 'success', uniqueSets, data });
   } catch (error) {
     console.error('Error fetching analytics by owner:', error);
     res.status(500).json({ error: 'Internal server error' });

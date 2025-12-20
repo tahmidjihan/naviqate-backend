@@ -40,9 +40,17 @@ async function getAnalyticsByFingerprint(fingerprint: string) {
   };
 }
 
+interface AnalyticsRow {
+  time: string;
+  fingerprint: string;
+  page: string;
+  button?: string;
+  form?: string;
+  percentage: number;
+}
+
 async function getAnalytics(owner: string, event: string) {
-  // 1. Get fingerprints for this owner if they are not directly in the event table
-  // Assuming the owner is stored in the 'analytics' table which links to fingerprints
+  // 1. Get fingerprints for this owner
   const { data: userAnalytics, error: userError } = await supabase
     .from('analytics')
     .select('fingerprint')
@@ -54,31 +62,114 @@ async function getAnalytics(owner: string, event: string) {
   }
 
   if (!userAnalytics || userAnalytics.length === 0) {
-    return [];
+    return { uniqueSets: event === 'button' ? [] : null, data: {} };
   }
 
   const fingerprints = userAnalytics.map((ua) => ua.fingerprint);
 
-  // 2. Fetch specific event data for all matching fingerprints
+  // 2. Fetch specific event data (last 90 days only)
   const tableName = `analytics_${event}s`;
+  const ninetyDaysAgo = new Date();
+  ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
+
   const { data: eventData, error: eventError } = await supabase
     .from(tableName)
     .select('*')
-    .in('fingerprint', fingerprints);
+    .in('fingerprint', fingerprints)
+    .gte('time', ninetyDaysAgo.toISOString());
 
   if (eventError) {
     console.error(`Error fetching from ${tableName}:`, eventError);
-    // If table doesn't exist or other error, return empty instead of crashing
-    return [];
+    return { uniqueSets: event === 'button' ? [] : null, data: {} };
   }
 
-  return eventData || [];
+  const rows = (eventData || []) as AnalyticsRow[];
+
+  // 3. Transformation Logic
+  const data: Record<string, any[]> = {};
+  let uniqueSets: string[] | null = null;
+
+  if (event === 'button') {
+    uniqueSets = Array.from(
+      new Set(rows.map((d) => `${d.button} at ${d.page}`))
+    );
+    rows.forEach((d) => {
+      const key = `${d.button} at ${d.page}`;
+      if (!data[key]) data[key] = [];
+      const date = d.time.split(' ')[0];
+      let dateEntry = data[key].find((e: any) => e.date === date);
+      if (!dateEntry) {
+        dateEntry = { date, primary: 0 };
+        data[key].push(dateEntry);
+      }
+      dateEntry.primary++;
+    });
+  } else if (event === 'form') {
+    rows.forEach((d) => {
+      const key = d.form || 'unknown';
+      if (!data[key]) data[key] = [];
+      const date = d.time.split(' ')[0];
+      let dateEntry = data[key].find((e: any) => e.date === date);
+      if (!dateEntry) {
+        dateEntry = {
+          date,
+          primary: 0,
+          secondary: 0,
+          _sum: 0,
+          _count: 0,
+        };
+        data[key].push(dateEntry);
+      }
+      dateEntry._sum += d.percentage;
+      dateEntry._count++;
+      dateEntry.primary = dateEntry._sum / dateEntry._count;
+      if (d.percentage === 100) dateEntry.secondary++;
+    });
+    // Clean up internal fields
+    Object.values(data).forEach((arr: any[]) =>
+      arr.forEach((e: any) => {
+        delete e._sum;
+        delete e._count;
+      })
+    );
+  } else if (event === 'page') {
+    rows.forEach((d) => {
+      const key = d.page;
+      if (!data[key]) data[key] = [];
+      const date = d.time.split(' ')[0];
+      let dateEntry = data[key].find((e: any) => e.date === date);
+      if (!dateEntry) {
+        dateEntry = {
+          date,
+          primary: 0,
+          secondary: 0,
+          _sum: 0,
+        };
+        data[key].push(dateEntry);
+      }
+      dateEntry.primary++; // total count
+      dateEntry._sum += d.percentage;
+      dateEntry.secondary = dateEntry._sum / dateEntry.primary; // average percentage
+    });
+    // Clean up internal fields
+    Object.values(data).forEach((arr: any[]) =>
+      arr.forEach((e: any) => {
+        delete e._sum;
+      })
+    );
+  }
+
+  return { uniqueSets, data };
 }
 async function getUniquePageViews(owner: string) {
+  const ninetyDaysAgo = new Date();
+  ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
+
   const { data, error } = await supabase
     .from('analytics')
     .select('*')
-    .eq('owner', owner);
+    .eq('owner', owner)
+    .gte('time', ninetyDaysAgo.toISOString());
 
   if (error) {
     console.error('Error fetching unique page views:', error);
