@@ -7,19 +7,6 @@ interface AnalyticsData {
   form?: formData[];
 }
 
-export function mergeAnalytics(
-  oldData: AnalyticsData | null,
-  newData: AnalyticsData
-): AnalyticsData {
-  if (!oldData) return newData;
-
-  return {
-    button: [...(oldData.button || []), ...(newData.button || [])],
-    page: [...(oldData.page || []), ...(newData.page || [])],
-    form: [...(oldData.form || []), ...(newData.form || [])],
-  };
-}
-
 export async function updateAnalytics(
   fingerprint: string,
   data: AnalyticsData,
