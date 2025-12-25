@@ -14,7 +14,7 @@ export async function updateAnalytics(
 ): Promise<void> {
   const { error: analyticsError } = await supabase
     .from('analytics')
-    .upsert({ fingerprint, owner }, { onConflict: 'fingerprint' });
+    .insert({ fingerprint, owner });
 
   if (analyticsError) {
     console.error('Error updating analytics:', analyticsError);
@@ -56,9 +56,10 @@ export async function updateAnalytics(
       // For now, using the logic provided but cautious about 'id' conflict if not present
       const { error } = await supabase
         .from(tableName)
-        .upsert(eventsWithFingerprint);
+        .insert(eventsWithFingerprint);
 
-      if (error) console.error(`Error upserting ${tableName}:`, error);
+      if (error) console.error(`Error inserting ${tableName}:`, error);
+      console.log(eventsWithFingerprint);
     }
   }
 }
