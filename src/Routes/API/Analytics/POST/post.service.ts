@@ -27,6 +27,23 @@ export async function updateAnalytics(
     form: 'analytics_forms',
   } as const;
 
+  // ? This is a removal of os/browser-specific routes from data
+  // TODO this should be handled on the client side to avoid sending unnecessary data
+  // TODO this will be added in the library update
+  if (data.page) {
+    const unnecessary = [
+      '/.well-known/*',
+      '/apple-app-site-association',
+      '/.well-known/assetlinks.json',
+      '/.well-known/apple-app-site-association',
+      '/manifest.json',
+      '/browserconfig.xml',
+      '/favicon.ico',
+    ];
+    data.page = data.page.filter((page) => !unnecessary.includes(page.page));
+  }
+  // ? end
+
   for (const [key, tableName] of Object.entries(tableMapping)) {
     const events = data[key as keyof AnalyticsData];
     if (events && events.length > 0) {
