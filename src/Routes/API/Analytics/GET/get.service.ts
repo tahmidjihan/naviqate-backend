@@ -76,7 +76,8 @@ async function getAnalytics(owner: string, event: string) {
     .from(tableName)
     .select('*')
     .in('fingerprint', fingerprints)
-    .gte('time', ninetyDaysAgo.toISOString());
+    .gte('time', ninetyDaysAgo.toISOString())
+    .order('time', { ascending: true });
 
   if (eventError) {
     console.error(`Error fetching from ${tableName}:`, eventError);
@@ -104,6 +105,10 @@ async function getAnalytics(owner: string, event: string) {
       }
       dateEntry.primary++;
     });
+    // Sort each array by date
+    Object.values(data).forEach((arr: any[]) => {
+      arr.sort((a, b) => a.date.localeCompare(b.date));
+    });
   } else if (event === 'form') {
     rows.forEach((d) => {
       const key = d.form || 'unknown';
@@ -125,13 +130,14 @@ async function getAnalytics(owner: string, event: string) {
       dateEntry.primary = dateEntry._sum / dateEntry._count;
       if (d.percentage === 100) dateEntry.secondary++;
     });
-    // Clean up internal fields
-    Object.values(data).forEach((arr: any[]) =>
+    // Clean up internal fields and sort
+    Object.values(data).forEach((arr: any[]) => {
       arr.forEach((e: any) => {
         delete e._sum;
         delete e._count;
-      })
-    );
+      });
+      arr.sort((a, b) => a.date.localeCompare(b.date));
+    });
   } else if (event === 'page') {
     rows.forEach((d) => {
       const key = d.page;
@@ -151,12 +157,13 @@ async function getAnalytics(owner: string, event: string) {
       dateEntry._sum += d.percentage;
       dateEntry.secondary = dateEntry._sum / dateEntry.primary; // average percentage
     });
-    // Clean up internal fields
-    Object.values(data).forEach((arr: any[]) =>
+    // Clean up internal fields and sort
+    Object.values(data).forEach((arr: any[]) => {
       arr.forEach((e: any) => {
         delete e._sum;
-      })
-    );
+      });
+      arr.sort((a, b) => a.date.localeCompare(b.date));
+    });
   }
 
   return { uniqueSets, data };

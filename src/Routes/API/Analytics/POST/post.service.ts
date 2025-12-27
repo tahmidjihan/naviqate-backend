@@ -14,7 +14,7 @@ export async function updateAnalytics(
 ): Promise<void> {
   const { error: analyticsError } = await supabase
     .from('analytics')
-    .insert({ fingerprint, owner });
+    .upsert({ fingerprint, owner }, { onConflict: 'fingerprint' });
 
   if (analyticsError) {
     console.error('Error updating analytics:', analyticsError);
@@ -54,12 +54,14 @@ export async function updateAnalytics(
 
       // Note: We might need a unique ID or onConflict strategy for actual events
       // For now, using the logic provided but cautious about 'id' conflict if not present
+      const date = new Date();
+      const time = date.toISOString();
+      // TODO : Add upsert conflict handling based on actual unique keys if needed
       const { error } = await supabase
         .from(tableName)
-        .insert(eventsWithFingerprint);
-
-      if (error) console.error(`Error inserting ${tableName}:`, error);
+        .upsert(eventsWithFingerprint);
       console.log(eventsWithFingerprint);
+      // if (error) console.error(`Error upserting ${tableName}:`, error);
     }
   }
 }
