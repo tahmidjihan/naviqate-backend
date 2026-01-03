@@ -73,7 +73,7 @@ IMPORTANT: Table names are case-sensitive. Use exact casing as shown above.
 
     // 1. Ask OpenRouter
     const completion = await openRouter.chat.send({
-      model: 'x-ai/grok-4.1-fast:free',
+      model: 'deepseek/deepseek-r1-0528:free',
       stream: false,
       messages: [
         {
